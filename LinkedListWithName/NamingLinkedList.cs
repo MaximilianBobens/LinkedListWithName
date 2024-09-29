@@ -1,4 +1,6 @@
-﻿namespace LinkedListWithName
+﻿using System.Text;
+
+namespace LinkedListWithName
 {
     public class NamingLinkedList : INamingList
     {
@@ -14,21 +16,31 @@
         // Fügt einen Knoten am Ende der Liste hinzu
         public void Append(Node n)
         {
+            // Überprüfe, ob die Liste leer ist (d.h. ob Head null ist).
             if (Head == null)
             {
+                // Wenn die Liste leer ist, setze den neuen Knoten n als Head.
                 Head = n;
             }
             else
             {
-                Node current = Head;
-                while (current.Next != null)
+                // Wenn die Liste nicht leer ist, beginne bei Head und gehe durch die Liste.
+                Node temp = Head;
+        
+                // Durchlaufe die Liste, bis der letzte Knoten erreicht ist (d.h. ein Knoten,
+                // dessen Next-Referenz null ist).
+                while (temp.Next != null)
                 {
-                    current = current.Next;
+                    temp = temp.Next; // Gehe zum nächsten Knoten.
                 }
-                current.Next = n;
+        
+                // Füge den neuen Knoten n am Ende der Liste hinzu, indem du die Next-Referenz
+                // des letzten Knotens auf n setzt.
+                temp.Next = n;
             }
         }
 
+       
         // Fügt einen Namen als neuen Knoten am Anfang der Liste hinzu
         public void InsertFront(string name)
         {
@@ -42,44 +54,66 @@
             n.Next = Head;
             Head = n;
         }
-
+        
         // Gibt die Liste aus
         public void PrintList()
         {
-            Node current = Head;
-            while (current != null)
+            // Setze eine Referenz auf den ersten Knoten (Head) der Liste.
+            Node temp = Head;
+    
+            // Solange temp(Head) nicht null ist, durchlaufe die Liste.
+            while (temp != null)
             {
-                Console.WriteLine(current.Name);
-                current = current.Next;
+                // Gib den Namen des aktuellen Knotens auf der Konsole aus.
+                Console.WriteLine(temp.Name);
+        
+                // Gehe zum nächsten Knoten, indem die Next-Referenz des aktuellen Knotens verwendet wird.
+                temp = temp.Next;
             }
         }
+
+      
 
         // Gibt die Namen in der Liste als String zurück
         public string GetList()
         {
-            Node current = Head;
-            string result = "";
-            while (current != null)
+            Node temp = Head;
+            StringBuilder result = new StringBuilder();
+    
+            while (temp != null)
             {
-                result += current.Name + " ";
-                current = current.Next;
+                result.Append(temp.Name).Append(" ");
+                temp = temp.Next;
             }
-            return result.Trim();
+
+            return result.ToString();
         }
+
+       
 
         // Findet einen Knoten anhand des Namens
         public Node FindName(string name)
         {
-            Node current = Head;
-            while (current != null)
+            // Setze eine Referenz auf den ersten Knoten (Head) der Liste.
+            Node temp = Head;
+    
+            // Solange current nicht null ist, durchlaufe die Liste.
+            while (temp != null)
             {
-                if (current.Name == name)
+                // Überprüfe, ob der Name des aktuellen Knotens mit dem gesuchten Namen übereinstimmt.
+                if (temp.Name == name)
                 {
-                    return current;
+                    // Wenn der Name gefunden wurde, gib den aktuellen Knoten zurück.
+                    return temp;
                 }
-                current = current.Next;
+        
+                // Gehe zum nächsten Knoten über.
+                temp = temp.Next;
             }
-            return null; // Name wurde nicht gefunden
+    
+            // Wenn kein Knoten mit dem gesuchten Namen gefunden wurde, gib null zurück.
+            return null;
         }
+
     }
 }
